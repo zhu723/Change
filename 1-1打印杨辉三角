@@ -1,0 +1,57 @@
+题目来源:https://pintia.cn/problem-sets/1271661871184920576/problems/1271756184799600640
+题目分析:题目较为容易，值得去体会杨辉三角的经典。
+本题要求按照规定格式打印前N行杨辉三角。
+
+输入格式：
+输入在一行中给出N（1≤N≤10）。
+
+输出格式：
+以正三角形的格式输出前N行杨辉三角。每个数字占固定4位
+题解：#include <stdio.h>
+int main (void){
+    int n,a[10][19] = {0},g,h,m,r;    
+    scanf("%d",&n);    
+    g = n-1;//g是三角左侧边界    
+    h = n-1;//h是右侧边界    
+    m = n;    
+    r = n-1;    
+    for(int b = 0; b < n ;b++){        
+      for(int c = 0;c < 2 * n-1;c++){            
+        if(b == 0&&c == n-1)            
+          a[b][c] = 1;            
+        if(b > 0&&c == g){                
+          a[b][c] = 1;            
+        }            
+        if(c > g&&c <h){               
+          if((c-g)%2== 0&&c+2 < h){
+            a[b][c]  = a[b-1][c-1] +a[b-1][c+1];//边界以内的数等于左上角加右上角               
+          }               
+          if(c+2== h){                  
+          a[b][c] = a[b-1][c-1]+1;               
+          }                          
+        }             
+        if(b > 0&&c == h){                   
+           a[b][c] = 1;               
+        }        
+    }        
+     g--;        
+     h++;    
+  }    
+  for(int k = 0;k < n;k++){        
+     for(int l = 0;l < 2*n-1;l++){            
+       if(l == m){                
+       printf("\n");                
+        break;            
+       }            
+       if(a[k][l] == 0&&l < r)             
+          printf(" ");            
+       else if(a[k][l] == 0&&l > r)            
+        continue;                        
+       else            
+       printf("%4d",a[k][l]);                                
+       }        
+     m++;        
+     r--;    
+     }    
+     return 0;
+     }
